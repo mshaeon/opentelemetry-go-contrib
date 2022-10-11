@@ -343,10 +343,10 @@ func UnaryServerInterceptor(opts ...Option) grpc.UnaryServerInterceptor {
 			s, _ := status.FromError(err)
 			span.SetStatus(codes.Error, s.Message())
 			span.SetAttributes(statusCodeAttr(s.Code()))
-			messageSent.Event(ctx, 1, s.Proto())
+			// messageSent.Event(ctx, 1, s.Proto())
 		} else {
 			span.SetAttributes(statusCodeAttr(grpc_codes.OK))
-			messageSent.Event(ctx, 1, resp)
+			// messageSent.Event(ctx, 1, resp)
 		}
 
 		return resp, err
@@ -382,7 +382,7 @@ func (w *serverStream) SendMsg(m interface{}) error {
 	err := w.ServerStream.SendMsg(m)
 
 	w.sentMessageID++
-	messageSent.Event(w.Context(), w.sentMessageID, m)
+	// messageSent.Event(w.Context(), w.sentMessageID, m)
 
 	return err
 }
