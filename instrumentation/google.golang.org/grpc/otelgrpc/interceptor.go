@@ -58,10 +58,10 @@ func (m messageType) Event(ctx context.Context, id int, message interface{}) {
 	}
 }
 
-var (
-	messageSent     = messageType(RPCMessageTypeSent)
-	messageReceived = messageType(RPCMessageTypeReceived)
-)
+// var (
+// messageSent     = messageType(RPCMessageTypeSent)
+// messageReceived = messageType(RPCMessageTypeReceived)
+// )
 
 // UnaryClientInterceptor returns a grpc.UnaryClientInterceptor suitable
 // for use in a grpc.Dial call.
@@ -157,7 +157,7 @@ func (w *clientStream) RecvMsg(m interface{}) error {
 		w.sendStreamEvent(errorEvent, err)
 	} else {
 		w.receivedMessageID++
-		messageReceived.Event(w.Context(), w.receivedMessageID, m)
+		// messageReceived.Event(w.Context(), w.receivedMessageID, m)
 	}
 
 	return err
@@ -167,7 +167,7 @@ func (w *clientStream) SendMsg(m interface{}) error {
 	err := w.ClientStream.SendMsg(m)
 
 	w.sentMessageID++
-	messageSent.Event(w.Context(), w.sentMessageID, m)
+	// messageSent.Event(w.Context(), w.sentMessageID, m)
 
 	if err != nil {
 		w.sendStreamEvent(errorEvent, err)
@@ -336,7 +336,7 @@ func UnaryServerInterceptor(opts ...Option) grpc.UnaryServerInterceptor {
 		)
 		defer span.End()
 
-		messageReceived.Event(ctx, 1, req)
+		// messageReceived.Event(ctx, 1, req)
 
 		resp, err := handler(ctx, req)
 		if err != nil {
@@ -372,7 +372,7 @@ func (w *serverStream) RecvMsg(m interface{}) error {
 
 	if err == nil {
 		w.receivedMessageID++
-		messageReceived.Event(w.Context(), w.receivedMessageID, m)
+		// messageReceived.Event(w.Context(), w.receivedMessageID, m)
 	}
 
 	return err
