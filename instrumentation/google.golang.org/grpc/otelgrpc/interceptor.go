@@ -100,11 +100,11 @@ func UnaryClientInterceptor(opts ...Option) grpc.UnaryClientInterceptor {
 
 		ctx = inject(ctx, cfg.Propagators)
 
-		messageSent.Event(ctx, 1, req)
+		// messageSent.Event(ctx, 1, req)
 
 		err := invoker(ctx, method, req, reply, cc, callOpts...)
 
-		messageReceived.Event(ctx, 1, reply)
+		// messageReceived.Event(ctx, 1, reply)
 
 		if err != nil {
 			s, _ := status.FromError(err)
